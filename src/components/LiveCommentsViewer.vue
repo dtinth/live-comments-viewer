@@ -2,8 +2,8 @@
   <div>
     <p>
       <button
-        class="button"
         :disabled="loading"
+        class="button"
         @click="refresh">Refresh</button>
     </p>
     <ul>
@@ -21,7 +21,12 @@
 <script>
 /* global FB */
 export default {
-  props: [ 'videoId' ],
+  props: {
+    videoId: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       loading: true,

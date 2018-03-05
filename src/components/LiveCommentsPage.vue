@@ -1,5 +1,5 @@
 <template lang="html">
-  <LiveCommentsViewer :videoId="videoId" />
+  <LiveCommentsViewer :video-id="videoId" />
 </template>
 
 <script>

@@ -6,10 +6,12 @@
         Checking login status...
       </div>
       <div v-if="authStatus === 'connected'">
-        <router-view></router-view>
+        <router-view/>
       </div>
       <div v-if="authStatus === 'not_authorized' || authStatus === 'unknown'">
-        <button class="button is-link" @click="signIn">Sign in with Facebook</button>
+        <button
+          class="button is-link"
+          @click="signIn">Sign in with Facebook</button>
       </div>
     </div>
   </div>

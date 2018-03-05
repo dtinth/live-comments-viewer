@@ -3,12 +3,20 @@
     <h2 class="title is-5">Please enter your Video URL:</h2>
     <div class="field">
       <p class="control">
-        <input class="input" type="text" size="50" v-model="videoUrl" placeholder="https://www.facebook.com/yourusername/videos/___/" />
+        <input
+          v-model="videoUrl"
+          class="input"
+          type="text"
+          size="50"
+          placeholder="https://www.facebook.com/yourusername/videos/___/" >
       </p>
     </div>
     <div class="field">
       <p class="control">
-        <input class="button is-primary" type="submit" value="View comments" />
+        <input
+          class="button is-primary"
+          type="submit"
+          value="View comments" >
       </p>
     </div>
     <p>This only works with your own videos, or videos posted by pages.</p>
