@@ -1,3 +1,5 @@
+import 'bulma/css/bulma.css'
+
 import App from './App.vue'
 import HomePage from './components/HomePage'
 import LiveCommentsPage from './components/LiveCommentsPage'

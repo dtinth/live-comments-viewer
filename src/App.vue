@@ -1,14 +1,16 @@
 <template>
-  <div id="app">
-    <h1>live-comments-viewer</h1>
-    <div v-if="authStatus === 'checking'">
-      Checking login status...
-    </div>
-    <div v-if="authStatus === 'connected'">
-      <router-view></router-view>
-    </div>
-    <div v-if="authStatus === 'not_authorized' || authStatus === 'unknown'">
-      <button @click="signIn">Sign in with Facebook</button>
+  <div class="section">
+    <div class="container">
+      <h1 class="title is-3">live-comments-viewer</h1>
+      <div v-if="authStatus === 'checking'">
+        Checking login status...
+      </div>
+      <div v-if="authStatus === 'connected'">
+        <router-view></router-view>
+      </div>
+      <div v-if="authStatus === 'not_authorized' || authStatus === 'unknown'">
+        <button class="button is-link" @click="signIn">Sign in with Facebook</button>
+      </div>
     </div>
   </div>
 </template>
@@ -39,10 +41,11 @@ export default {
   },
   methods: {
     async signIn () {
-      const result = await new Promise(resolve => {
+      const response = await new Promise(resolve => {
         window.FB.login(resolve, { scope: 'user_videos' })
       })
-      console.log('Login result', result)
+      this.onAuthResponseChange(response)
+      this.onStatusChange(response)
     },
     onAuthResponseChange ({ authResponse }) {
       console.log('onAuthResponseChange', authResponse && authResponse.userID)
@@ -56,4 +59,7 @@ export default {
 </script>
 
 <style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
 </style>

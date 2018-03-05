@@ -2,16 +2,19 @@
   <div>
     <p>
       <button
+        class="button"
         :disabled="loading"
         @click="refresh">Refresh</button>
     </p>
     <ul>
       <li
         v-for="comment in comments"
-        :key="comment.id">
+        :key="comment.id"
+        @click="fullScreen($event.currentTarget)">
         <strong>{{ comment.from.name }}:</strong> {{ comment.message }}
       </li>
     </ul>
+    <p>Click on a comment to view it in full screen</p>
   </div>
 </template>
 
@@ -29,7 +32,7 @@ export default {
     this.fetchComments()
     this.refreshInterval = setInterval(
       () => this.fetchComments(),
-      15000
+      10000
     )
   },
   beforeDestroy () {
@@ -38,6 +41,9 @@ export default {
   methods: {
     refresh () {
       this.fetchComments()
+    },
+    fullScreen (el) {
+      el.requestFullscreen()
     },
     async fetchComments () {
       this.loading = true
@@ -59,4 +65,25 @@ export default {
 </script>
 
 <style scoped>
+  ul {
+    border: 1px solid #eee;
+    margin: 1em 0;
+  }
+  li:not(:first-child) {
+    border-top: 1px solid #eee;
+  }
+  li {
+    padding: 0.5em;
+  }
+  li:fullscreen {
+    font-size: 100px;
+    background: black;
+    color: #e9e8e7;
+    border: 0;
+    text-align: center;
+  }
+  li:fullscreen strong {
+    color: #bef;
+    display: block;
+  }
 </style>
