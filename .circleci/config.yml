@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/live-comments-viewer
     docker:
-      - image: netlify/build:latest
+      - image: node:8
     steps:
       - checkout
       - restore_cache:
@@ -19,4 +19,4 @@ jobs:
             - ./node_modules
       - run:
           name: Lint
-          command: npm lint
+          command: yarn lint
