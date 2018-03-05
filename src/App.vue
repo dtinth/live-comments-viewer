@@ -4,7 +4,10 @@
     <div v-if="authStatus === 'checking'">
       Checking login status...
     </div>
-    <div v-if="authStatus === 'notAuthorized'">
+    <div v-if="authStatus === 'connected'">
+      <live-comments-viewer />
+    </div>
+    <div v-if="authStatus === 'not_authorized' || authStatus === 'unknown'">
       <button @click="signIn">Sign in with Facebook</button>
     </div>
   </div>
@@ -12,46 +15,49 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import LiveCommentsViewer from './components/LiveCommentsViewer.vue'
 
 export default {
   name: 'app',
   data () {
     return {
-      authStatus: 'checking',
+      authStatus: 'unknown',
       authResponse: null
     }
   },
   methods: {
     async signIn () {
       const result = await new Promise(resolve => {
-        FB.login(resolve, { scope: 'user_videos' })
+        window.FB.login(resolve, { scope: 'user_videos' })
       })
       console.log('Login result', result)
     },
-    onAuthResponseChange () {
-      console.log(this)
+    onAuthResponseChange ({ authResponse }) {
+      console.log('onAuthResponseChange', authResponse && authResponse.userID)
     },
-    onStatusChange () {
-      console.log(this)
+    onStatusChange ({ status }) {
+      console.log('onStatusChange', status)
+      this.authStatus = status
     }
   },
   async created () {
     const FB = await window.facebookSDKPromise
-    FB.Event.subscribe(
-      'auth.authResponseChange',
-      this.onAuthResponseChange
-    )
-    FB.Event.subscribe(
-      'auth.statusChange',
-      this.onStatusChange
-    )
     FB.getLoginStatus((response) => {
-      this.onAuthResponseChange(response.authResponse)
-      this.onStatusChange(response.status)
+      this.onAuthResponseChange(response)
+      this.onStatusChange(response)
+      FB.Event.subscribe(
+        'auth.authResponseChange',
+        this.onAuthResponseChange
+      )
+      FB.Event.subscribe(
+        'auth.statusChange',
+        this.onStatusChange
+      )
     })
   },
   components: {
-    HelloWorld
+    HelloWorld,
+    LiveCommentsViewer
   }
 }
 </script>
