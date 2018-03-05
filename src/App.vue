@@ -5,7 +5,7 @@
       Checking login status...
     </div>
     <div v-if="authStatus === 'connected'">
-      <live-comments-viewer />
+      <router-view></router-view>
     </div>
     <div v-if="authStatus === 'not_authorized' || authStatus === 'unknown'">
       <button @click="signIn">Sign in with Facebook</button>
@@ -14,13 +14,8 @@
 </template>
 
 <script>
-import LiveCommentsViewer from './components/LiveCommentsViewer.vue'
-
 export default {
   name: 'App',
-  components: {
-    LiveCommentsViewer
-  },
   data () {
     return {
       authStatus: 'unknown',

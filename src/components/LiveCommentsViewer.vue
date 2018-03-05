@@ -18,6 +18,7 @@
 <script>
 /* global FB */
 export default {
+  props: [ 'videoId' ],
   data () {
     return {
       loading: true,
@@ -42,7 +43,7 @@ export default {
       this.loading = true
       try {
         const commentsResponse = await new Promise(resolve => {
-          FB.api('/10209640044192089/comments', {
+          FB.api('/' + this.videoId + '/comments', {
             order: 'reverse_chronological',
             live_filter: 'no_filter',
             filter: 'stream'
