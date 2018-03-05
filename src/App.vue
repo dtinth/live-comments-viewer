@@ -14,30 +14,17 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import LiveCommentsViewer from './components/LiveCommentsViewer.vue'
 
 export default {
-  name: 'app',
+  name: 'App',
+  components: {
+    LiveCommentsViewer
+  },
   data () {
     return {
       authStatus: 'unknown',
       authResponse: null
-    }
-  },
-  methods: {
-    async signIn () {
-      const result = await new Promise(resolve => {
-        window.FB.login(resolve, { scope: 'user_videos' })
-      })
-      console.log('Login result', result)
-    },
-    onAuthResponseChange ({ authResponse }) {
-      console.log('onAuthResponseChange', authResponse && authResponse.userID)
-    },
-    onStatusChange ({ status }) {
-      console.log('onStatusChange', status)
-      this.authStatus = status
     }
   },
   async created () {
@@ -55,9 +42,20 @@ export default {
       )
     })
   },
-  components: {
-    HelloWorld,
-    LiveCommentsViewer
+  methods: {
+    async signIn () {
+      const result = await new Promise(resolve => {
+        window.FB.login(resolve, { scope: 'user_videos' })
+      })
+      console.log('Login result', result)
+    },
+    onAuthResponseChange ({ authResponse }) {
+      console.log('onAuthResponseChange', authResponse && authResponse.userID)
+    },
+    onStatusChange ({ status }) {
+      console.log('onStatusChange', status)
+      this.authStatus = status
+    }
   }
 }
 </script>

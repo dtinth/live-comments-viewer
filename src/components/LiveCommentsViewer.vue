@@ -1,7 +1,9 @@
 <template>
   <ul>
-    <li v-for="comment in comments" :key="comment.id">
-      <strong>{{comment.from.name}}:</strong> {{comment.message}}
+    <li
+      v-for="comment in comments"
+      :key="comment.id">
+      <strong>{{ comment.from.name }}:</strong> {{ comment.message }}
     </li>
   </ul>
 </template>
@@ -14,6 +16,9 @@ export default {
       loading: true,
       comments: [ ]
     }
+  },
+  created () {
+    this.fetchComments()
   },
   methods: {
     async fetchComments () {
@@ -31,9 +36,6 @@ export default {
         this.loading = false
       }
     }
-  },
-  created () {
-    this.fetchComments()
   }
 }
 </script>
