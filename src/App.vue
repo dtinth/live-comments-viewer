@@ -1,7 +1,12 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>live-comments-viewer</h1>
+    <div v-if="authStatus === 'checking'">
+      Checking login status...
+    </div>
+    <div v-if="authStatus === 'notAuthorized'">
+      <button @click="signIn">Sign in with Facebook</button>
+    </div>
   </div>
 </template>
 
@@ -10,6 +15,41 @@ import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'app',
+  data () {
+    return {
+      authStatus: 'checking',
+      authResponse: null
+    }
+  },
+  methods: {
+    async signIn () {
+      const result = await new Promise(resolve => {
+        FB.login(resolve, { scope: 'user_videos' })
+      })
+      console.log('Login result', result)
+    },
+    onAuthResponseChange () {
+      console.log(this)
+    },
+    onStatusChange () {
+      console.log(this)
+    }
+  },
+  async created () {
+    const FB = await window.facebookSDKPromise
+    FB.Event.subscribe(
+      'auth.authResponseChange',
+      this.onAuthResponseChange
+    )
+    FB.Event.subscribe(
+      'auth.statusChange',
+      this.onStatusChange
+    )
+    FB.getLoginStatus((response) => {
+      this.onAuthResponseChange(response.authResponse)
+      this.onStatusChange(response.status)
+    })
+  },
   components: {
     HelloWorld
   }
@@ -17,12 +57,4 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
