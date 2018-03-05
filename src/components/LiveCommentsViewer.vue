@@ -1,11 +1,16 @@
 <template>
-  <ul>
-    <li
-      v-for="comment in comments"
-      :key="comment.id">
-      <strong>{{ comment.from.name }}:</strong> {{ comment.message }}
-    </li>
-  </ul>
+  <div>
+    <p>
+      <button @click="refresh" :disabled="loading">Refresh</button>
+    </p>
+    <ul>
+      <li
+        v-for="comment in comments"
+        :key="comment.id">
+        <strong>{{ comment.from.name }}:</strong> {{ comment.message }}
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -19,8 +24,18 @@ export default {
   },
   created () {
     this.fetchComments()
+    this.refreshInterval = setInterval(
+      () => this.fetchComments(),
+      15000
+    )
+  },
+  beforeDestroy () {
+    window.clearInterval(this.refreshInterval)
   },
   methods: {
+    refresh () {
+      this.fetchComments()
+    },
     async fetchComments () {
       this.loading = true
       try {
