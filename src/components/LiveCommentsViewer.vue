@@ -1,7 +1,9 @@
 <template>
   <div>
     <p>
-      <button @click="refresh" :disabled="loading">Refresh</button>
+      <button
+        :disabled="loading"
+        @click="refresh">Refresh</button>
     </p>
     <ul>
       <li
